@@ -1,0 +1,93 @@
+body {
+    background-color: #000; /* Sets the background color to black */
+    color: #fff; /* Sets the default text color to white */
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Stacks children vertically */
+    justify-content: center; /* Centers children vertically */
+    align-items: center; /* Centers children horizontally */
+    height: 100vh; /* Sets the height to full viewport height */
+    margin: 0; /* Removes default margin */
+    font-family: 'Arial', sans-serif; /* Sets the font family */
+}
+
+.container {
+    position: relative; /* Positions the container relative to its normal position */
+    text-align: center; /* Centers text inside the container */
+    margin-bottom: 1rem; /* Adds bottom margin */
+}
+
+.cyberpunk-text {
+    font-size: 4rem; /* Sets the font size of the cyberpunk text */
+    position: relative; /* Allows for z-index manipulation */
+    animation: glitch 2s infinite; /* Applies glitch animation */
+    background: linear-gradient(90deg, rgb(10, 96, 182) 20%, #0f9 80%); /* Sets a linear gradient background */
+    background-clip: text; /* Clips background to text */
+    -webkit-background-clip: text; /* WebKit-specific background clip */
+    color: transparent; /* Makes the text color transparent */
+    text-shadow: 0 0 15px #0f9; /* Adds a glowing text shadow */
+    z-index: 2; /* Places the text above other elements */
+}
+
+.cyberpunk-icon {
+    margin-bottom: 1rem; /* Adds margin below the icon */
+}
+
+.cyberpunk-icon img {
+    width: 300px; /* Sets the width of the icon image */
+    animation: icon-flash 1s infinite; /* Applies flashing animation to the icon */
+}
+
+.neon-box {
+    position: absolute; /* Positions the box absolutely */
+    top: 50%; /* Centers the box vertically */
+    left: 50%; /* Centers the box horizontally */
+    transform: translate(-50%, -50%); /* Adjusts the box position to center */
+    border: 2px solid #0f9; /* Sets a solid border color */
+    width: calc(100% - 1rem); /* Sets the width with a slight margin */
+    height: calc(100% - 1rem); /* Sets the height with a slight margin */
+    z-index: 1; /* Places the box below the text */
+    animation: neon-glow 2s infinite; /* Applies glowing animation */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
+@keyframes glitch {
+    0%, 100% {
+        transform: translateY(0); /* Resets transform at start and end */
+        opacity: 1; /* Full opacity */
+    }
+    25% {
+        transform: translateY(-0.3rem); /* Moves up slightly */
+        opacity: 0.7; /* Reduces opacity */
+    }
+    50% {
+        transform: translateY(0.2rem); /* Moves down slightly */
+        opacity: 0.8; /* Slightly less opaque */
+    }
+    75% {
+        transform: translateY(-0.15rem); /* Moves up slightly again */
+        opacity: 0.9; /* Returns to more opaque */
+    }
+}
+
+@keyframes neon-glow {
+    0%, 100% {
+        border-color: #0f9; /* Sets border color at start and end */
+        box-shadow: 0 0 10px #0f9; /* Sets glow effect at start and end */
+    }
+    50% {
+        border-color: #f06; /* Changes border color in the middle of the animation */
+        box-shadow: 0 0 20px #f06; /* Increases glow effect in the middle */
+    }
+}
+
+@keyframes icon-flash {
+    0% {
+        opacity: 1; /* Full opacity at the start */
+    }
+    50% {
+        opacity: 0.5; /* Halves opacity in the middle */
+    }
+    100% {
+        opacity: 1; /* Returns to full opacity at the end */
+    }
+}
