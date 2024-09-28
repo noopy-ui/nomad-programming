@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staircase Text Effect</title>
+    <style>
+        /* Style for the entire page */
+        body {
+            width: 100vw; /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            margin: 0; /* Remove default margin */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically center content */
+            justify-content: center; /* Horizontally center content */
+            background-color: black; /* Set background color to black */
+            color: white; /* Set text color to white */
+            font-family: impact, sans-serif; /* Use Impact font */
+        }
+
+        /* Style for the left side content (heading and description) */
+        .left-content {
+            margin-right: 50px; /* Add space between the text and the staircase */
+            text-align: left; /* Align text to the left */
+        }
+
+        /* General style for heading and paragraph tags */
+        h1, h2, p {
+            margin: 10px 0; /* Add vertical spacing between elements */
+        }
+
+        /* Style for the staircase text container */
+        .staircase-text {
+            font-family: impact, sans-serif; /* Use Impact font for the staircase text */
+            font-size: 75px; /* Large font size */
+            font-weight: 900; /* Bold text */
+            letter-spacing: -3px; /* Reduce space between letters */
+            text-transform: uppercase; /* Make all letters uppercase */
+        }
+
+        /* Style for each "step" in the staircase */
+        .staircase-side {
+            height: 80px; /* Fixed height for each step */
+            overflow: hidden; /* Hide any overflow text */
+            position: relative; /* Relative positioning for better control */
+        }
+
+        /* Style for the paragraph tags inside the staircase steps */
+        p {
+            margin: 0; /* Remove margin from paragraphs */
+            height: 80px; /* Height of the text block inside each step */
+            line-height: 80px; /* Vertically center the text within the block */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        /* Odd numbered steps have a skewed and scaled transformation */
+        .staircase-side:nth-child(odd) {
+            transform: skew(60deg, -30deg) scaleY(0.500); /* Skew and compress the text */
+            color: white; /* Set text color to white */
+        }
+
+        /* Even numbered steps have a different skew and scale transformation */
+        .staircase-side:nth-child(even) {
+            transform: skew(0deg, -30deg) scaleY(1.300); /* Skew differently and stretch the text */
+            color: rgb(147, 144, 144); /* Set a lighter color */
+        }
+
+        /* When hovering over the staircase text, shift all lines upwards */
+        .staircase-text:hover p {
+            transform: translate(0, -75px); /* Move text upward on hover */
+            cursor: pointer; /* Show a pointer cursor when hovering */
+        }
+
+        /* Adjust the position of each staircase side slightly to create the staircase effect */
+        .staircase-side:nth-child(1) { left: 5px; } /* First step */
+        .staircase-side:nth-child(2) { left: 10px; } /* Second step */
+        .staircase-side:nth-child(3) { left: 15px; } /* Third step */
+        .staircase-side:nth-child(4) { left: 20px; } /* Fourth step */
+        .staircase-side:nth-child(5) { left: 25px; } /* Fifth step */
+    </style>
+</head>
+<body>
+    <!-- Left side content with headings and a short description -->
+    <div class="left-content">
+        <h1>Staircase Text Effect</h1> <!-- Main heading -->
+        <h2>Nomad Programming</h2> <!-- Subheading -->
+        <p>Code link in description box</p> <!-- Placeholder for code link -->
+    </div>
+    
+    <!-- Staircase text section -->
+    <section class="staircase-text">
+        <!-- Each div represents a step in the staircase with two lines of text -->
+        <div class="staircase-side">
+            <p></p> <!-- Empty line for visual effect -->
+            <p>hello</p> <!-- First visible word -->
+        </div>
+        <div class="staircase-side">
+            <p>hello</p> <!-- Overlapping word from the previous step -->
+            <p>world</p> <!-- New word -->
+        </div>
+        <div class="staircase-side">
+            <p>world</p> <!-- Overlapping word -->
+            <p>text</p> <!-- New word -->
+        </div>
+        <div class="staircase-side">
+            <p>text</p> <!-- Overlapping word -->
+            <p>effect</p> <!-- New word -->
+        </div>
+        <div class="staircase-side">
+            <p>effect</p> <!-- Last word -->
+            <p></p> <!-- Empty line for visual effect -->
+        </div>
+    </section>
+</body>
+</html>
