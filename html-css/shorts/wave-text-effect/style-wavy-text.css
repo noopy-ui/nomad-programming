@@ -1,0 +1,79 @@
+/* Body styling: 
+   - Remove default margins and paddings
+   - Set background color to dark gray (#161616)
+   - Set overflow to hidden to prevent scrollbars
+   - Flexbox layout to center content vertically and horizontally
+   - Set full viewport height and use impact-like fonts with white text color */
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #161616;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #fff;
+}
+
+/* Container: 
+   - Wrapper for the content, allows positioning of child elements relative to this container */
+.container{
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background:
+   - Positioned absolutely to cover the entire container
+   - Radial gradient for a bubble effect, with small circles fading into transparency
+   - Bubbles move across the screen using the 'bubbles' keyframes animation */
+.background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, #55f0c3 5%, transparent 10%);
+    background-size: 30px 30px;
+    z-index: -1; /* Ensures background is behind text */
+    animation: bubbles 5s linear infinite;
+}
+
+/* Keyframes for bubble movement:
+   - Moves the background diagonally over time, creating a flowing effect */
+@keyframes bubbles{
+    0%{
+        transform: translate(0, 0);
+    }
+    100%{
+        transform: translate(-100px, -100px);
+    }
+}
+
+/* Cool-text: 
+   - Large 5rem font size
+   - Wave effect applied to the text using keyframes
+   - Gradient applied to text using background-clip technique to fill the text with a gradient
+   - The color is set to transparent to make the gradient visible */
+.cool-text{
+    font-size: 5rem;
+    position: relative;
+    display: inline-block;
+    animation: wave 1s infinite linear alternate;
+    background: linear-gradient(45deg, #f06, #fc0, #3cf);
+    background-clip: text;
+    -webkit-background-clip: text; /* For Webkit browsers (e.g. Chrome, Safari) */
+    color: transparent; /* Hide the original text color, revealing the gradient */
+}
+
+/* Keyframes for wave effect:
+   - Creates a subtle up and down movement for the text to simulate a wave motion */
+@keyframes wave{
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(-15px);
+    }
+}
