@@ -1,0 +1,110 @@
+/* Basic styling for the body to center content vertically and horizontally */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+    background-color: #000; /* Set black background */
+}
+
+/* Container for the hologram text */
+.hologram-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 4rem; /* Large font size */
+    color: #1606f7; /* Electric blue color for text */
+    position: relative;
+    perspective: 1000px; /* Create 3D perspective effect */
+    animation: rotate 20s linear infinite; /* Rotate the text infinitely */
+}
+
+/* Individual letters in the hologram text */
+.hologram-letter {
+    position: relative;
+    display: inline-block; /* Display letters inline */
+    transform-origin: center; /* Set the transformation origin to center */
+    animation: flicker 1s ease-in-out infinite, float 4s ease-in-out infinite alternate; 
+    /* Add flickering and floating animations */
+}
+
+/* Flickering effect for the letters */
+@keyframes flicker {
+    0%, 100% {
+        opacity: 0.6; /* Dim opacity at start and end */
+    }
+    50% {
+        opacity: 1; /* Full opacity in the middle of the flicker */
+    }
+}
+
+/* Floating effect to make the letters move up and down */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0); /* No movement initially */
+    }
+    50% {
+        transform: translateY(-10px); /* Move letters up by 10px */
+    }
+}
+
+/* Rotate the hologram text on the Y-axis */
+@keyframes rotate {
+    0%, 100% {
+        transform: rotateY(0deg); /* Start and end with no rotation */
+    }
+    50% {
+        transform: rotateY(180deg); /* Halfway through, rotate 180 degrees */
+    }
+}
+
+/* Styling for the navigation bar */
+.hologram-navbar {
+    background-color: #000; /* Black background for the navbar */
+    padding: 20px 0; /* Padding to space the navbar */
+    text-align: center; /* Center align the navbar content */
+}
+
+/* Remove default list styling */
+.hologram-navbar ul {
+    list-style: none; /* No bullets or numbers */
+    margin: 0;
+    padding: 0;
+}
+
+/* Horizontal layout for navbar items */
+.hologram-navbar li {
+    display: inline-block; /* Display items inline */
+    margin: 0 15px; /* Add space between navbar items */
+}
+
+/* Navbar links */
+.hologram-navbar a {
+    color: #00ff00; /* Neon green color for the text */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 18px; /* Font size for the links */
+    position: relative; /* Allows the use of the ::before pseudo-element */
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Pseudo-element to create a trailing text effect on hover */
+.hologram-navbar a::before {
+    content: attr(data-text); /* Use the same text from the link */
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(0, 255, 0, 0.5); /* Semi-transparent green color */
+    overflow: hidden;
+    white-space: nowrap; /* Prevent wrapping of text */
+    width: 0; /* Initially hidden */
+    transition: width 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for the navbar links */
+.hologram-navbar a:hover {
+    color: #fff; /* Change link color to white on hover */
+}
+
+/* On hover, expand the width of the pseudo-element to create a trailing effect */
+.hologram-navbar a:hover::before {
+    width: 100%; /* Fully reveal the pseudo-element text */
+}
