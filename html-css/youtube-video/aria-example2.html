@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIA</title>
+
+    <style>
+        /* Styles for the custom button */
+        .custom-button {
+            display: inline-block; /* Display as an inline-block element */
+            padding: 10px 20px; /* Padding around the button */
+            background-color: #007bff; /* Background color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Cursor changes to pointer on hover */
+            font-size: 16px; /* Font size */
+            text-align: center; /* Centered text */
+            user-select: none; /* Prevent text selection */
+        }
+        /* Hover effect for the button */
+        .custom-button:hover {
+            background-color: #0056b3; /* Darker background on hover */
+        }
+        /* Focus outline for accessibility */
+        .custom-button:focus {
+            outline: 2px solid #ffbf00; /* Yellow outline when focused */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom button implemented as a div with ARIA role -->
+    <div role="button" tabindex="0" aria-label="Submit Form" class="custom-button">
+        Submit
+    </div>
+
+    <script>
+        // Select the custom button
+        const customButton = document.querySelector('[role="button"]');
+
+        // Event listener for click event
+        customButton.addEventListener('click', () => {
+            alert('customButton clicked'); // Alert when clicked
+        });
+
+        // Event listener for keyboard events (to support accessibility)
+        customButton.addEventListener('keydown', (event) => {
+            // Check if the pressed key is 'Enter' or 'Space'
+            if (event.key === 'Enter' || event.key === ' ') {
+                customButton.click(); // Trigger the click event
+                event.preventDefault(); // Prevent the default action for space key
+            }
+        });
+    </script>
+</body>
+</html>
