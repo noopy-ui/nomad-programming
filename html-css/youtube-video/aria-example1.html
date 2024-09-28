@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design for different devices -->
+    <title>ARIA Example</title> <!-- Title displayed in the browser tab -->
+
+    <style>
+        .dropdown-content {
+            display: none; <!-- Initially hide the dropdown content -->
+            background-color: #f9f9f9; <!-- Background color of the dropdown -->
+            border: 1px solid #ddd; <!-- Border for the dropdown -->
+            position: absolute; <!-- Position the dropdown absolutely -->
+            z-index: 1; <!-- Set stacking order -->
+        }
+        .dropdown-content.show {
+            display: block; <!-- Show the dropdown content when the class is added -->
+        }
+    </style>
+</head>
+
+<body>
+    <button id="dropdownButton" aria-expanded="false" aria-controls="dropdownMenu" aria-haspopup="true">
+        Open Dropdown <!-- Button to toggle dropdown -->
+    </button>
+    <div id="dropdownMenu" class="dropdown-content" role="menu" aria-labelledby="dropdownButton">
+        <button role="menuitem">Item 1</button> <!-- Menu item 1 -->
+        <button role="menuitem">Item 2</button> <!-- Menu item 2 -->
+        <button role="menuitem">Item 3</button> <!-- Menu item 3 -->
+    </div>
+
+    <script>
+        const button = document.getElementById('dropdownButton'); // Get the dropdown button
+        const menu = document.getElementById('dropdownMenu'); // Get the dropdown menu
+
+        button.addEventListener('click', () => {
+            const expanded = button.getAttribute('aria-expanded') === 'true'; // Check current state
+            button.setAttribute('aria-expanded', !expanded); // Toggle aria-expanded attribute
+            menu.classList.toggle('show'); // Show/hide dropdown menu
+        });
+    </script>
+</body>
+</html>
