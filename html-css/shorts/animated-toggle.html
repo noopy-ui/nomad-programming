@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode Toggle with Animated Gradient</title>
+  <style>
+    /* Basic reset styles for the body */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      transition: background-color 1s ease, color 3s ease; /* Smooth transitions for background and text colors */
+      background-color: white; /* Default background color for light mode */
+      color: black; /* Default text color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Make the body take full viewport height */
+    }
+
+    /* Styles for the toggle button container */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50px; /* Rounded edges */
+      background: linear-gradient(45deg, #ec4949, #f9cd4c); /* Light mode gradient */
+      transition: background 0.5s ease; /* Smooth background transition */
+      width: 80px; /* Fixed width */
+      justify-content: space-evenly; /* Equal spacing between elements */
+      position: relative;
+      background-size: 200% 200%; /* Enlarges the gradient background to allow movement */
+      animation: gradientAnimation 3s ease infinite; /* Infinite animated gradient for light mode */
+    }
+
+    /* Light mode gradient animation */
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Initial styles for the sun and moon icons */
+    .sun, .moon {
+      transition: opacity 0.3s ease; /* Smooth transition for visibility */
+    }
+
+    /* Sun is visible by default in light mode */
+    .sun {
+      opacity: 1;
+    }
+
+    /* Moon is hidden by default in light mode */
+    .moon {
+      opacity: 0;
+    }
+
+    /* Dark mode styles */
+    .dark-mode {
+      background-color: #333; /* Dark background for dark mode */
+      color: white; /* White text for dark mode */
+    }
+
+    /* Dark mode toggle container styles */
+    .dark-mode .toggle-container {
+      background: linear-gradient(45deg, #07074f, #7171f2); /* Dark mode gradient */
+      background-size: 200% 200%; /* Same large background size for animation */
+      animation: gradientAnimationDark 3s ease infinite; /* Infinite animated gradient for dark mode */
+    }
+
+    /* Dark mode gradient animation */
+    @keyframes gradientAnimationDark {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* In dark mode, the sun should disappear */
+    .dark .sun {
+      opacity: 0;
+    }
+
+    /* In dark mode, the moon should appear */
+    .dark .moon {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toggle button that switches between light and dark modes -->
+  <div class="toggle-container" id="toggle" onclick="toggleDarkMode()">
+    <!-- Sun icon shown in light mode -->
+    <div class="sun" id="sun">
+      <img src="assets/imgs/sun.png" width="30px" height="30px" alt="Sun icon">
+    </div>
+    <!-- Moon icon shown in dark mode -->
+    <div class="moon" id="moon">
+      <img src="assets/imgs/moon.png" width="30px" height="30px" alt="Moon icon">
+    </div>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('toggle'); // Get the toggle button
+    const body = document.body; // Get the body element
+
+    // Function to switch between light and dark modes
+    function toggleDarkMode() {
+      body.classList.toggle('dark-mode'); // Toggle the dark-mode class on the body
+      toggle.classList.toggle('dark'); // Toggle the dark class on the toggle button (for sun/moon icons)
+    }
+  </script>
+</body>
+</html>
