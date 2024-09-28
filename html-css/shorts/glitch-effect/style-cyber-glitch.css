@@ -1,0 +1,93 @@
+body {
+    /* Setting the background to black and text to white for contrast */
+    background-color: #000;
+    color: #fff;
+    /* Centering content vertically and horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Full height of the viewport */
+    height: 100vh;
+    /* Removing default margin */
+    margin: 0;
+    /* Using Arial as the primary font */
+    font-family: 'Arial', sans-serif;
+    /* Hides any overflow beyond the viewport */
+    overflow: hidden;
+}
+
+.container {
+    /* Positioned absolutely to allow free positioning */
+    position: absolute;
+    /* Center-aligns the text */
+    text-align: center;
+    /* Adds margin below the content */
+    margin-bottom: 1rem;
+}
+
+.cyber-img {
+    /* Sets the width of the cyberpunk image */
+    width: 300px;
+}
+
+.glitch {
+    /* Light red-pink color for the glitch text */
+    color: rgb(223, 191, 191);
+    /* Relative positioning for glitch effect layers */
+    position: relative;
+    /* Responsive font size based on viewport width */
+    font-size: 4vw;
+    /* Margin added around the glitch text */
+    margin: 70px 200px;
+    /* Applies the glitch animation, delayed to start after 5 seconds and repeat infinitely */
+    animation: glitch 5s 5s infinite;
+}
+
+@keyframes glitch {
+    /* At 1% progress, apply a rotation and skew for the glitch effect */
+    1% {
+        transform: rotateX(10deg) skewX(70deg);
+    }
+    /* At 2%, revert the transformation back to normal */
+    2% {
+        transform: rotateX(0deg) skewX(0deg);
+    }
+}
+
+.scanlines {
+    /* Hides overflow, ensuring no content spills out */
+    overflow: hidden;
+    /* Blend the scanlines effect with the underlying content for a retro look */
+    mix-blend-mode: difference;
+}
+
+.scanlines::before {
+    /* Inserts pseudo-element for creating scanlines effect */
+    content: "";
+    /* Covers the entire screen */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /* Creates repeating horizontal lines for the scanlines effect */
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 0.5%, transparent 1%
+    );
+    /* Applies an animation to slightly move the scanlines up and down */
+    animation: fudge 7s ease-in-out alternate infinite;
+}
+
+@keyframes fudge {
+    /* Moves scanlines from the starting position */
+    from {
+        transform: translate(0px, 0px);
+    }
+    /* Moves scanlines down by 2 pixels */
+    to {
+        transform: translate(0px, 2px);
+    }
+}
