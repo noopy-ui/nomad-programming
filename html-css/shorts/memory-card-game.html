@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Match Game</title>
+    <style>
+        /* Basic styling for the body of the page */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0; /* Light gray background */
+            font-family: Arial, sans-serif; /* Standard font */
+        }
+
+        /* Container that holds all the game cards */
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px); /* 4 columns, each 100px wide */
+            grid-gap: 10px; /* Gap between the cards */
+            margin-bottom: 20px;
+        }
+
+        /* Basic style for each card */
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc; /* Light gray card background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer; /* Cursor changes to pointer on hover */
+            border-radius: 8px; /* Rounded card corners */
+            position: relative; /* To manage the positioning of the front and back faces */
+        }
+
+        /* Style for flipped cards */
+        .card.flipped {
+            background-color: #fff; /* Change color to white when flipped */
+        }
+
+        /* Inner container for front and back faces of cards */
+        .card .inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute; /* Positioned relative to the card */
+        }
+
+        /* Front face of the card (visible when flipped) */
+        .card .front {
+            display: none;
+        }
+
+        /* Show front face when the card is flipped */
+        .card.flipped .front {
+            display: flex;
+        }
+
+        /* Back face of the card (visible by default) */
+        .card .back {
+            display: flex;
+        }
+
+        /* Hide back face when the card is flipped */
+        .card.flipped .back {
+            display: none;
+        }
+
+        /* Style for the game status text */
+        #status {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Style for the start and play again buttons */
+        #start-button, #play-again-button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer; /* Indicate clickability */
+        }
+
+        /* Hide the play again button by default */
+        #play-again-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Start button to initialize the game -->
+    <button id="start-button">Start Game</button>
+
+    <!-- Status text to inform the player about game progress -->
+    <div id="status">Click "Start Game" to begin</div>
+
+    <!-- Container where the game cards will be dynamically generated -->
+    <div id="game-container">
+        <!-- Cards will be generated here by JavaScript -->
+    </div>
+
+    <!-- Button to play the game again (hidden until the game ends) -->
+    <button id="play-again-button">Play Again</button>
+
+    <script>
+        let board = []; // Array to store card values
+        let flippedCards = []; // Array to store the currently flipped cards
+        let matchedPairs = 0; // Counter for matched card pairs
+        let startTime, endTime; // Variables to track game time
+
+        // Function to create a card element
+        function createCard(value, index) {
+            const card = document.createElement('div');
+            card.className = 'card'; // Set the card's class
+            card.dataset.index = index; // Store card index
+            card.innerHTML = `
+                <div class="inner">
+                    <div class="front">${value}</div> <!-- Card front shows the value -->
+                    <div class="back"></div> <!-- Card back is initially visible -->
+                </div>
+            `;
+            // Add event listener to handle card flip on click
+            card.addEventListener('click', () => flipCard(card, value));
+            return card;
+        }
+
+        // Function to flip a card
+        function flipCard(card, value) {
+            // Check if 2 cards are already flipped or if the card is already flipped
+            if (flippedCards.length === 2 || card.classList.contains('flipped')) return;
+
+            card.classList.add('flipped'); // Flip the card
+            flippedCards.push({ card, value }); // Add the flipped card to the array
+
+            // If two cards are flipped, check for a match
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 1000); // Delay to allow players to see the second card
+            }
+        }
+
+        // Function to check if two flipped cards match
+        function checkMatch() {
+            const [first, second] = flippedCards;
+            if (first.value === second.value) {
+                // Cards match
+                matchedPairs++; // Increment matched pairs counter
+                if (matchedPairs === board.length / 2) { // Check if all pairs are matched
+                    endTime = new Date();
+                    const timeTaken = Math.round((endTime - startTime) / 1000); // Calculate time taken
+                    document.getElementById('status').textContent = `Congratulations! You won in ${timeTaken} seconds.`;
+                    document.getElementById('play-again-button').style.display = 'block'; // Show play again button
+                }
+            } else {
+                // Cards don't match, flip them back
+                first.card.classList.remove('flipped');
+                second.card.classList.remove('flipped');
+            }
+            flippedCards = []; // Reset flipped cards array
+        }
+
+        // Function to initialize the game
+        function initializeGame() {
+            document.getElementById('status').textContent = 'Game in progress...'; // Update status
+            const container = document.getElementById('game-container');
+            container.innerHTML = ''; // Clear previous game content
+
+            // Card values to match (each value will appear twice)
+            const cardValues = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            const shuffledCards = [...cardValues, ...cardValues].sort(() => Math.random() - 0.5); // Shuffle cards
+            board = shuffledCards; // Set the game board
+            matchedPairs = 0; // Reset matched pairs counter
+            flippedCards = []; // Reset flipped cards
+            startTime = new Date(); // Record the game start time
+
+            // Generate and add each card to the container
+            shuffledCards.forEach((value, index) => {
+                const card = createCard(value, index);
+                container.appendChild(card);
+            });
+
+            // Hide the start and play again buttons
+            document.getElementById('start-button').style.display = 'none';
+            document.getElementById('play-again-button').style.display = 'none';
+        }
+
+        // Event listener to start the game
+        document.getElementById('start-button').addEventListener('click', initializeGame);
+
+        // Event listener to reset and start a new game
+        document.getElementById('play-again-button').addEventListener('click', () => {
+            initializeGame(); // Start a new game
+            document.getElementById('status').textContent = 'Click on cards to match them'; // Update status
+        });
+    </script>
+</body>
+</html>
