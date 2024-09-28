@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <style>
+        /* Style for the entire page layout */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0; /* Light gray background */
+            font-family: Arial, sans-serif; /* Font styling */
+        }
+
+        /* Container for the game elements */
+        #game-container {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #000; /* Black border */
+            background-color: #fff; /* White background */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        /* Style for message text */
+        #message {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        /* Style for the guess input field */
+        #guess-input {
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        /* Style for the guess button */
+        #guess-button {
+            font-size: 16px;
+            padding: 5px 10px;
+            cursor: pointer; /* Pointer cursor to indicate clickability */
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Guess the Number</h1> <!-- Game title -->
+        <p>Guess a number between 1 and 100:</p> <!-- Instruction -->
+        <input type="number" id="guess-input" min="1" max="100"> <!-- Number input for user guess -->
+        <button id="guess-button">Submit Guess</button> <!-- Button to submit guess -->
+        <div id="message"></div> <!-- Container to display game messages -->
+    </div>
+
+    <script>
+        // Get references to the necessary HTML elements
+        const guessButton = document.getElementById('guess-button');
+        const guessInput = document.getElementById('guess-input');
+        const message = document.getElementById('message');
+
+        // Generate a random number between 1 and 100
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0; // Variable to count the number of attempts
+
+        // Function to check the user's guess
+        function checkGuess() {
+            const userGuess = parseInt(guessInput.value); // Get user's guess and convert to integer
+            attempts++; // Increment attempts
+
+            // Compare the guess with the random number
+            if (userGuess < randomNumber) {
+                message.textContent = 'Too low! Try again.'; // If the guess is too low
+            } else if (userGuess > randomNumber) {
+                message.textContent = 'Too high! Try again.'; // If the guess is too high
+            } else {
+                message.textContent = `Congratulations! You guessed it right in ${attempts} attempts.`; // Correct guess
+                // Reset the game
+                randomNumber = Math.floor(Math.random() * 100) + 1; // Generate a new random number
+                attempts = 0; // Reset attempts
+            }
+        }
+
+        // Event listener for the button click to submit the guess
+        guessButton.addEventListener('click', checkGuess);
+
+        // Optional: Allow the Enter key to submit the guess
+        guessInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                checkGuess(); // Call the checkGuess function when Enter is pressed
+            }
+        });
+    </script>
+</body>
+</html>
