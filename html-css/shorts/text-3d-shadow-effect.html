@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Specifies the character encoding for the HTML document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ensures the webpage is responsive and adjusts based on screen size -->
+    <title>Text 3D Animation Example</title>
+   <style>
+    body{
+        /* Set box-sizing for consistent element sizing */
+        box-sizing: border-box;
+        /* Remove default margins and padding */
+        margin: 0;
+        padding: 0;
+        /* Flexbox layout for centering content */
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        /* Full viewport width and height */
+        width: 100vw;
+        height: 100vh;
+        /* Set background color */
+        background-color: #5db3ab;
+    }
+    h1{
+        /* Set font family and size */
+        font-family: impact, sans-serif;
+        font-size: 5rem;
+        /* Center text */
+        text-align: center;
+        /* Create a layered shadow effect with different offsets and colors */
+        text-shadow: 5px 5px 0px #5db3ab,   /* First shadow layer */
+                     10px 10px 0px #31e8d6, /* Second shadow layer */
+                     15px 15px 0px #206d65, /* Third shadow layer */
+                     25px 25px 10px #062421; /* Final shadow layer with blur */
+        /* Pointer cursor when hovering over the text */
+        cursor: pointer;
+        /* Transition effects for stroke width and shadow on hover */
+        transition: -webkit-text-stroke-width 0.4s ease-in-out, text-shadow 0.4s ease-in-out;
+        /* Add a text stroke around the letters */
+        -webkit-text-stroke: 2px #b3eded;
+        /* Set text color to transparent for layered shadow effect */
+        color: transparent;
+        /* Apply italic style to the text */
+        font-style: italic;
+    }
+    h1:hover{
+        /* Remove italic style on hover */
+        font-style: normal;
+        /* Remove text-shadow effect on hover */
+        text-shadow: none;
+        /* Set text stroke width to 0 on hover */
+        -webkit-text-stroke-width: 0px;
+        /* Set solid color for text on hover */
+        color: #b3eded;
+    }
+   </style>
+</head>
+<body>
+<!-- Main heading with 3D shadow effect and hover behavior -->
+<h1>Nomad Programming</h1>
+</body>
+</html>
