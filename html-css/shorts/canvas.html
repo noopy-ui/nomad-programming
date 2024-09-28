@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Animation Example</title>
+    <style>
+        canvas {
+            border: 1px solid black; /* Adding a border for visibility */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="600"></canvas>
+
+    <script>
+        // Get the canvas element and 2D drawing context
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+
+        // Array to hold information about circles
+        var circles = [];
+
+        // Function to create a new circle with random properties
+        function createCircle() {
+            var circle = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 20 + 10, // Random radius between 10 and 30
+                color: 'rgb(' + Math.random() * 255 + ',' + Math.random() * 255 + ',' + Math.random() * 255 + ')',
+                speedX: Math.random() * 4 - 2, // Random horizontal speed between -2 and 2
+                speedY: Math.random() * 4 - 2 // Random vertical speed between -2 and 2
+            };
+            circles.push(circle);
+        }
+
+        // Function to draw all circles on the canvas
+        function drawCircles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+            for (var i = 0; i < circles.length; i++) {
+                var circle = circles[i];
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+                ctx.fillStyle = circle.color;
+                ctx.fill();
+            }
+        }
+
+        // Function to update the position of circles and redraw them
+        function update() {
+            for (var i = 0; i < circles.length; i++) {
+                var circle = circles[i];
+                circle.x += circle.speedX;
+                circle.y += circle.speedY;
+                // Check boundaries and reverse direction if needed
+                if (circle.x - circle.radius < 0 || circle.x + circle.radius > canvas.width) {
+                    circle.speedX *= -1;
+                }
+                if (circle.y - circle.radius < 0 || circle.y + circle.radius > canvas.height) {
+                    circle.speedY *= -1;
+                }
+            }
+            drawCircles(); // Redraw circles with updated positions
+            drawText(); // Draw the text in the middle
+            requestAnimationFrame(update); // Continue the animation loop
+        }
+
+        // Function to draw text in the middle of the canvas
+        function drawText() {
+            var text = "Nomad Programming";
+            ctx.font = "24px Arial";
+            ctx.fillStyle = "black";
+            var textWidth = ctx.measureText(text).width;
+            ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2);
+        }
+
+        // Create initial circles
+        for (var i = 0; i < 20; i++) {
+            createCircle();
+        }
+
+        // Start animation loop
+        update();
+    </script>
+</body>
+</html>
