@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Specifies the character encoding and viewport for mobile responsiveness -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The title of the page, displayed on the browser tab -->
+    <title>Image Puzzle Game</title>
+    <style>
+        /* General body styling for layout, font, background, and padding */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        /* Styling for the main heading */
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the image selection section */
+        .image-selection {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for each image thumbnail */
+        .image-selection img {
+            width: 150px;
+            height: 100px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hover effect on images: slightly enlarges and darkens border */
+        .image-selection img:hover {
+            transform: scale(1.05);
+            border-color: #333;
+        }
+
+        /* Container styling for puzzle pieces; initially hidden */
+        #puzzle-container {
+            display: none;
+            grid-template-columns: repeat(5, 80px); /* 5 columns for 10 pieces */
+            grid-template-rows: repeat(2, 80px); /* 2 rows for 10 pieces */
+            gap: 2px;
+            max-width: 410px;
+            margin: auto;
+            padding: 10px;
+            padding-left: 10px;
+            border: 2px solid #333;
+            background-color: white;
+        }
+
+        /* Styling for individual puzzle pieces */
+        .puzzle-piece {
+            width: 80px;
+            height: 80px;
+            background-size: 400px 160px; /* Matches original image size */
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page heading for the game -->
+    <h1>Select an Image to Start the Puzzle</h1>
+
+    <!-- Container with clickable images to start puzzle creation -->
+    <div class="image-selection">
+        <!-- First image, triggers puzzle generation when clicked -->
+        <img src="assets/imgs/puzzle_image1.jpg" onclick="startPuzzle('assets/imgs/puzzle_image1.jpg')" alt="Image 1">
+        <!-- Second image, triggers puzzle generation when clicked -->
+        <img src="assets/imgs/puzzle_image2.jpg" onclick="startPuzzle('assets/imgs/puzzle_image2.jpg')" alt="Image 2">
+    </div>
+
+    <!-- Empty container to hold puzzle pieces -->
+    <div id="puzzle-container"></div>
+
+    <script>
+        /* Function to start the puzzle with the selected image */
+        function startPuzzle(imageUrl) {
+            const container = document.getElementById('puzzle-container');
+            container.innerHTML = ''; // Clear previous puzzle pieces
+            container.style.display = 'grid'; // Display grid for puzzle
+
+            // Array to store individual puzzle pieces
+            const pieces = [];
+            for (let i = 0; i < 10; i++) { // Loop to create 10 pieces
+                const piece = document.createElement('div'); // New div for each piece
+                piece.classList.add('puzzle-piece'); // Assign class for styling
+                piece.style.backgroundImage = `url(${imageUrl})`; // Set background
+
+                // Calculate background position to align piece with correct image part
+                const x = (i % 5) * -80;
+                const y = Math.floor(i / 5) * -80;
+                piece.style.backgroundPosition = `${x}px ${y}px`;
+
+                piece.setAttribute('data-index', i); // Track correct piece position
+                piece.draggable = true; // Enable drag-and-drop
+                piece.ondragstart = dragStart; // Set drag start function
+                piece.ondragover = dragOver; // Allow drag over other pieces
+                piece.ondrop = drop; // Enable dropping on another piece
+                pieces.push(piece); // Add piece to the array
+            }
+
+            // Randomly shuffle pieces array for game challenge
+            pieces.sort(() => Math.random() - 0.5);
+            pieces.forEach(piece => container.appendChild(piece)); // Add shuffled pieces to container
+        }
+
+        let draggedPiece = null; // Track currently dragged piece
+
+        /* Function to start dragging a piece */
+        function dragStart(event) {
+            draggedPiece = event.target; // Set dragged piece
+            event.dataTransfer.setData('text/plain', event.target.dataset.index); // Store index
+        }
+
+        /* Allow piece to be dragged over another */
+        function dragOver(event) {
+            event.preventDefault(); // Prevent default to allow drop
+        }
+
+        /* Handle dropping of piece onto another */
+        function drop(event) {
+            event.preventDefault(); // Prevent default to enable drop
+            const targetPiece = event.target; // Set target piece
+            
+            if (targetPiece.classList.contains('puzzle-piece')) { // Check if target is a piece
+                // Swap the dragged piece index with the target piece index
+                const draggedIndex = draggedPiece.dataset.index;
+                const targetIndex = targetPiece.dataset.index;
+
+                draggedPiece.dataset.index = targetIndex; // Update dragged piece index
+                targetPiece.dataset.index = draggedIndex; // Update target piece index
+
+                // Swap backgrounds to give the visual swap effect
+                const tempBg = draggedPiece.style.backgroundPosition;
+                draggedPiece.style.backgroundPosition = targetPiece.style.backgroundPosition;
+                targetPiece.style.backgroundPosition = tempBg;
+
+                // Check if the puzzle is solved after each move
+                checkSolved();
+            }
+        }
+
+        /* Function to check if the puzzle is correctly assembled */
+        function checkSolved() {
+            const pieces = Array.from(document.getElementsByClassName('puzzle-piece')); // All pieces in container
+            const isSolved = pieces.every((piece, index) => parseInt(piece.dataset.index) === index); // Verify positions
+
+            if (isSolved) { // If all pieces are in correct order
+                alert('Congratulations! You solved the puzzle!'); // Display success message
+            }
+        }
+    </script>
+</body>
+</html>
