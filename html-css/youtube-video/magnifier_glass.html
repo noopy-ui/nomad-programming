@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Magnifier Effect</title>
+    <style>
+        body {
+            display: flex;
+            background-color: #c7c7c7; /* Optional: Background color for better visibility */
+            padding: 20px; /* Optional: Add some padding around the body */
+        }
+
+        .magnifier-container {
+            
+            align-items: center; /* Center items vertically within the container */
+            margin-bottom: 20px; /* Space between images */
+            cursor: url('https://upload.wikimedia.org/wikipedia/commons/3/3b/Magnifying_glass_icon.svg'), auto; /* Custom cursor */
+        }
+
+        img {
+            width: 400px; /* Set your desired image width */
+            height: auto;
+            border: 1px solid #e5e2e2;
+            margin-right: 10px; /* Space between image and zoom box */
+        }
+
+        .zoom-box {
+            width: 200px; /* Width of the zoom box */
+            height: 200px; /* Height of the zoom box */
+            border: 2px solid #333;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            visibility: hidden; /* Initially hidden */
+        }
+
+        .zoom-box img {
+            position: absolute;
+            width: 800px; /* Adjust for the zoomed image */
+            height: auto; /* Maintain aspect ratio */
+            pointer-events: none; /* Disable pointer events on the zoomed image */
+        }
+    </style>
+</head>
+<body>
+    <div class="magnifier-container">
+        <img class="image" src="assets/imgs/ring1.jpg" alt="Magnifiable Image">
+        <div class="zoom-box">
+            <img class="zoomedImage" src="" alt="Zoomed Image">
+        </div>
+    </div>
+    <div class="magnifier-container">
+        <img class="image" src="assets/imgs/bag.jpg" alt="Magnifiable Image">
+        <div class="zoom-box">
+            <img class="zoomedImage" src="" alt="Zoomed Image">
+        </div>
+    </div>
+
+    <script>
+        const images = document.querySelectorAll('.image');
+
+        images.forEach((image) => {
+            const zoomBox = image.nextElementSibling; // Get the associated zoom box
+            const zoomedImage = zoomBox.querySelector('.zoomedImage'); // Get the zoomed image inside the zoom box
+
+            const scaleFactor = 2; // Zoom scale factor
+
+            image.addEventListener('mousemove', (e) => {
+                const rect = image.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the image
+                const y = e.clientY - rect.top; // y position within the image
+
+                // Show the zoom box
+                zoomBox.style.visibility = 'visible';
+
+                // Update zoomed image source dynamically
+                zoomedImage.src = image.src; // Use the same source as the hovered image
+
+                // Calculate the position of the zoomed image
+                const offsetX = (x * scaleFactor) - (zoomBox.offsetWidth / 2); // Center the zoomed image
+                const offsetY = (y * scaleFactor) - (zoomBox.offsetHeight / 2); // Center the zoomed image
+
+                // Move image to zoom into the correct area
+                zoomedImage.style.left = `-${offsetX}px`;
+                zoomedImage.style.top = `-${offsetY}px`;
+            });
+
+            image.addEventListener('mouseleave', () => {
+                zoomBox.style.visibility = 'hidden'; // Hide the zoom box when mouse leaves
+            });
+
+            image.addEventListener('mouseenter', () => {
+                zoomBox.style.visibility = 'visible'; // Show the zoom box when mouse enters
+            });
+        });
+    </script>
+</body>
+</html>
